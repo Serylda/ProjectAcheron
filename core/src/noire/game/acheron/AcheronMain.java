@@ -23,7 +23,9 @@ public class AcheronMain extends ApplicationAdapter {
 
 	@Override
 	public void create () {
-		//camera = new OrthographicCamera(1280, 720);
+		camera = new OrthographicCamera(1280, 720);
+		//camera= new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		//camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		backgroundBatch = new SpriteBatch();
 
 		testLevel = new TurnBasedLevel(1,"Test Level", new TiledMap(Gdx.files.internal("maps/testMap.txt")));
@@ -31,14 +33,14 @@ public class AcheronMain extends ApplicationAdapter {
 
 		player1 = new Player();
 		player1.initialize();
-		player1.setPosition(0, 200);
+		player1.setPosition(0, 0);
 
 		backgroundTexture = new Texture("tempBg.jpg");
 		background =new Sprite(backgroundTexture);
 
 
 		//TiledMap testMap = new TiledMap(Gdx.files.internal("maps/testMap.txt"));
-		System.out.println("??");
+		//System.out.println(Gdx.graphics.getWidth() + " " + Gdx.graphics.getHeight());
 	}
 
 	@Override

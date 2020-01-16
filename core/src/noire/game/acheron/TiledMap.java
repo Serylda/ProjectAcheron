@@ -58,7 +58,7 @@ public class TiledMap extends Map {
                  */
 
                 if (t.equals("TE"))
-                    mapScript[r][c] = new Tile(Tile.EMPTY);
+                    mapScript[r][c] = new Tile(Tile.EMPTY, r, c);
                     //mapScript[r][c] = "TE";
                 else if (t.equals("TO"))
                     mapScript[r][c] = new Tile(Tile.OCCUPIED_BY_OBSTACLE);
