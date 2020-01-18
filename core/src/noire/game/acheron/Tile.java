@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Tile extends MapElement
 {
 
-    private int state;
+    private int state, modifier;
 
     private Sprite graphic;
     private Texture tileTexture;
@@ -17,36 +17,64 @@ public class Tile extends MapElement
     public static final int EMPTY = 1;
     public static final int OCCUPIED_BY_PLAYER = 2;
     public static final int OCCUPIED_BY_OBSTACLE = 3;
-    public static final int SPAWN_POINT = 4;
 
-    public Tile(int s)
+    public static final int SPAWN_POINT = 4;
+    public static final int PORTAL = 5;
+
+    public static final float tileWidth = 100;
+    public static final float tileHeight = 100;
+    public static final float tileDistance = 5;
+
+    public Tile(int state)
     {
-        state = s;
-        tileTexture = new Texture("testTile.png");
-        graphic = new Sprite(tileTexture, 100, 100);
-        xPos = 0; //Gdx.graphics.getWidth() - graphic.getTexture().getWidth();
-        yPos = Gdx.graphics.getHeight() - tileTexture.getHeight() / 3;
+        initialize(state);
         xScale = 1f;
         yScale = 1f;
         System.out.println(xPos + " " + yPos);
     }
 
-    public Tile(int s, int positionRow, int positionColumn)
+    public Tile(int state, int xCoordinate, int yCoordinate)
+    {
+        initialize(state, xCoordinate, yCoordinate);
+        xScale = 1f;
+        yScale = 1f;
+        //System.out.println(Gdx.graphics.getHeight() + " " + Gdx.graphics.getWidth());
+    }
+
+    public Tile(int state, int modifier, int xCoordinate, int yCoordinate)
+    {
+        initialize(state, xCoordinate, yCoordinate);
+        this.modifier = modifier;
+    }
+
+    public void initialize(int s)
     {
         state = s;
+        modifier = DEFAULT;
+        tileTexture = new Texture("testTile.png");
+        graphic = new Sprite(tileTexture, 100, 100);
+    }
+
+    public void initialize(int s, int xCoordinate, int yCoordinate)
+    {
+        state = s;
+        modifier = DEFAULT;
         tileTexture = new Texture("testTile.png");
         graphic = new Sprite(tileTexture, 100, 100);
 
-        xPos = 10 + (tileTexture.getWidth() / 3.0f + 10) * positionRow;
-        yPos = Gdx.graphics.getHeight() - 110 - (tileTexture.getHeight() / 3.0f + 10) * positionColumn;
-        xScale = 1f;
-        yScale = 1f;
-        System.out.println(Gdx.graphics.getHeight() + " " + Gdx.graphics.getWidth());
+        //tileWidth = tileTexture.getWidth() / 3;
+        //tileHeight = tileTexture.getHeight() / 3;
+
+        setCoordinate(xCoordinate, yCoordinate);
+
     }
 
-    public void initialize()
+    public void setCoordinate(int xCoordinate, int yCoordinate)
     {
-        graphic = new Sprite(new Texture(""));
+        xCoor = xCoordinate;
+        yCoor = yCoordinate;
+        xPos = tileDistance + (tileWidth + tileDistance) * xCoor;
+        yPos = Gdx.graphics.getHeight() - 100 - tileDistance - (tileHeight + tileDistance) * yCoor;
     }
 
     public boolean occupiable()

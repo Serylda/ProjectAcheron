@@ -33,7 +33,8 @@ public class AcheronMain extends ApplicationAdapter {
 
 		player1 = new Player();
 		player1.initialize();
-		player1.setPosition(0, 0);
+		player1.initTBLevel(0, 0);
+		//player1.setPosition(0, 0);
 
 		backgroundTexture = new Texture("tempBg.jpg");
 		background =new Sprite(backgroundTexture);
@@ -57,7 +58,7 @@ public class AcheronMain extends ApplicationAdapter {
 		//testLevel.stage.act(delta);
 		//testLevel.stage.draw();
 
-		player1.freeMovement();
+		player1.turnBasedAction(testLevel, (TiledMap)testLevel.map(), 10);
 		player1.render();
 	}
 

@@ -44,7 +44,7 @@ public class TiledMap extends Map {
             Scanner line = new Scanner(script.nextLine());
             line.useDelimiter("\t");
             c = 0;
-            while (line.hasNext())
+            while (line.hasNext() && r < rowCount && c < columnCount)
             {
                 String t = line.next();
 
@@ -57,14 +57,12 @@ public class TiledMap extends Map {
                     TS - Tile_SPAWN
                  */
 
-                if (t.equals("TE"))
+                if (t.equals("TE")) //Tile_Empty
                     mapScript[r][c] = new Tile(Tile.EMPTY, r, c);
-                    //mapScript[r][c] = "TE";
-                else if (t.equals("TO"))
-                    mapScript[r][c] = new Tile(Tile.OCCUPIED_BY_OBSTACLE);
-                    //mapScript[r][c] = "TO";
-                else if (t.equals("TS"))
-                    mapScript[r][c] = new Tile(Tile.SPAWN_POINT);
+                else if (t.equals("TO")) //Tile_Obstacle
+                    mapScript[r][c] = new Tile(Tile.OCCUPIED_BY_OBSTACLE, r, c);
+                else if (t.equals("TS")) //Tile_Player_Spawn
+                    mapScript[r][c] = new Tile(Tile.OCCUPIED_BY_PLAYER, Tile.SPAWN_POINT, r, c);
                 else
                     mapScript[r][c] = new Tile(Tile.DEFAULT);
 
@@ -96,6 +94,19 @@ public class TiledMap extends Map {
         for (MapElement[] e : mapScript)
             for (MapElement element : e)
                 element.renderElement(batch);
+    }
+
+    public boolean playerInBound(int xCoordinate, int yCoordinate)
+    {
+        /*if (xCoordinate > mapScript.length - 1 || xCoordinate < 0 || yCoordinate > mapScript[0].length - 1 || yCoordinate < 0)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }*/
+        return (xCoordinate >= 0 && xCoordinate < mapScript.length &&  yCoordinate >= 0 && yCoordinate < mapScript[0].length);
     }
 
 }

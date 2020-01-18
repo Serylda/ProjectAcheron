@@ -5,6 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+
+import java.util.Timer;
 
 public class Player {
 
@@ -25,24 +28,39 @@ public class Player {
 
     public void initTBLevel(int initialXCoor, int initialYCoor)
     {
-        
+        xCoor = initialXCoor;
+        yCoor = initialYCoor;
+        xPos = Tile.tileDistance + Tile.tileWidth * 0.5f + (Tile.tileWidth + Tile.tileDistance) * xCoor;
+        yPos = Gdx.graphics.getHeight() - Tile.tileDistance - Tile.tileWidth * 0.5f - (Tile.tileHeight + Tile.tileDistance) * yCoor;
     }
 
 
-    public void turnBasedAction(int turn_count) {
+    public void turnBasedAction(TurnBasedLevel level, TiledMap map, int turn_count) {
+        TurnBasedLevel currentLevel = level;
         int turnCount = turn_count;
         int movementIndex = 1;
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            xPos += -15;
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            xPos += 15;
-        if (Gdx.input.isKeyPressed(Input.Keys.UP))
-            yPos += 15;
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
-            yPos += -15;
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
-            setScale(0.2f, 0.2f);
 
+        if (map.playerInBound(xCoor - 1, yCoor) && Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
+            setCoordinate(xCoor - 1, yCoor);
+        if (map.playerInBound(xCoor + 1, yCoor) && Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
+            setCoordinate(xCoor + 1, yCoor);
+        if (map.playerInBound(xCoor, yCoor - 1) && Gdx.input.isKeyJustPressed(Input.Keys.UP))
+            setCoordinate(xCoor, yCoor - 1);
+        if (map.playerInBound(xCoor, yCoor + 1) && Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
+            setCoordinate(xCoor, yCoor + 1);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
+            System.out.println(xCoor + " " + yCoor );
+
+        /*
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
+            graphic.translateX(-Tile.tileWidth + 10);
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+            graphic.translateX(Tile.tileWidth + 10);
+        if (Gdx.input.isKeyPressed(Input.Keys.UP))
+            graphic.translateY(Tile.tileHeight + 10);
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN))
+            graphic.translateY(-Tile.tileHeight + 10);
+        */
     }
 
     public void setPosition(float x, float y)
@@ -51,13 +69,21 @@ public class Player {
         yPos = y;
     }
 
+    public void setCoordinate(int xCoordinate, int yCoordinate)
+    {
+        xCoor = xCoordinate;
+        yCoor = yCoordinate;
+        xPos = Tile.tileDistance + Tile.tileWidth * 0.5f + (Tile.tileWidth + Tile.tileDistance) * xCoor;
+        yPos = Gdx.graphics.getHeight() - Tile.tileDistance - Tile.tileWidth * 0.5f - (Tile.tileHeight + Tile.tileDistance) * yCoor;
+    }
+
     public void setScale(float x, float y)
     {
         scaleX = x;
         scaleY = y;
         graphic.setScale(scaleX, scaleY);
     }
-
+/*
     public void freeMovement() {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
             xPos += -15;
@@ -69,7 +95,7 @@ public class Player {
             yPos += -15;
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
             setScale(0.2f, 0.2f);
-    }
+    }*/
 
     public void render()//SpriteBatch batch)
     {
@@ -83,4 +109,5 @@ public class Player {
     {
         batch.dispose();
     }
+
 }
