@@ -42,8 +42,7 @@ public class TiledMap extends Map {
         while (script.hasNextLine())
         {
             Scanner line = new Scanner(script.nextLine());
-            line.useDelimiter("\t");
-            c = 0;
+            //line.useDelimiter("\t");
             while (line.hasNext() && r < rowCount && c < columnCount)
             {
                 String t = line.next();
@@ -69,6 +68,7 @@ public class TiledMap extends Map {
                 c++;
             }
             r++;
+            c = 0;
         }
 
     }
@@ -82,8 +82,8 @@ public class TiledMap extends Map {
 
     public void outputMap()
     {
-        for (int i = 0; i < 3; i++) {
-            for (int l = 0; l < 3; l++)
+        for (int i = 0; i < rowCount; i++) {
+            for (int l = 0; l < columnCount; l++)
                 System.out.print(mapScript[i][l] + " ");
             System.out.println("");
         }
@@ -106,7 +106,17 @@ public class TiledMap extends Map {
         {
             return true;
         }*/
-        return (xCoordinate >= 0 && xCoordinate < mapScript.length &&  yCoordinate >= 0 && yCoordinate < mapScript[0].length);
+        return (xCoordinate >= 0 && xCoordinate < mapScript[0].length &&  yCoordinate >= 0 && yCoordinate < mapScript.length);
     }
 
+    public void playerPosition(int xCoor, int yCoor)
+    {
+
+    }
+
+
+    public Tile getTile(int xCoor, int yCoor)
+    {
+        return (Tile)mapScript[yCoor][xCoor];
+    }
 }

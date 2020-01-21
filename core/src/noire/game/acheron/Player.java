@@ -12,7 +12,7 @@ import java.util.Timer;
 public class Player {
 
     private float xPos ,yPos, scaleX, scaleY;
-    private int xCoor, yCoor;
+    public int xCoor, yCoor;
     SpriteBatch batch;
     Sprite graphic;
     //private float
@@ -40,14 +40,26 @@ public class Player {
         int turnCount = turn_count;
         int movementIndex = 1;
 
-        if (map.playerInBound(xCoor - 1, yCoor) && Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
+        if (map.playerInBound(xCoor - 1, yCoor) && Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
+            map.getTile(xCoor, yCoor).setState(Tile.EMPTY);
             setCoordinate(xCoor - 1, yCoor);
-        if (map.playerInBound(xCoor + 1, yCoor) && Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
+            map.getTile(xCoor, yCoor).setState(Tile.OCCUPIED_BY_PLAYER);
+        }
+        if (map.playerInBound(xCoor + 1, yCoor) && Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
+            map.getTile(xCoor, yCoor).setState(Tile.EMPTY);
             setCoordinate(xCoor + 1, yCoor);
-        if (map.playerInBound(xCoor, yCoor - 1) && Gdx.input.isKeyJustPressed(Input.Keys.UP))
+            map.getTile(xCoor, yCoor).setState(Tile.OCCUPIED_BY_PLAYER);
+        }
+        if (map.playerInBound(xCoor, yCoor - 1) && Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            map.getTile(xCoor, yCoor).setState(Tile.EMPTY);
             setCoordinate(xCoor, yCoor - 1);
-        if (map.playerInBound(xCoor, yCoor + 1) && Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
+            map.getTile(xCoor, yCoor).setState(Tile.OCCUPIED_BY_PLAYER);
+        }
+        if (map.playerInBound(xCoor, yCoor + 1) && Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+            map.getTile(xCoor, yCoor).setState(Tile.EMPTY);
             setCoordinate(xCoor, yCoor + 1);
+            map.getTile(xCoor, yCoor).setState(Tile.OCCUPIED_BY_PLAYER);
+        }
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
             System.out.println(xCoor + " " + yCoor );
 
@@ -75,6 +87,7 @@ public class Player {
         yCoor = yCoordinate;
         xPos = Tile.tileDistance + Tile.tileWidth * 0.5f + (Tile.tileWidth + Tile.tileDistance) * xCoor;
         yPos = Gdx.graphics.getHeight() - Tile.tileDistance - Tile.tileWidth * 0.5f - (Tile.tileHeight + Tile.tileDistance) * yCoor;
+
     }
 
     public void setScale(float x, float y)
@@ -83,6 +96,7 @@ public class Player {
         scaleY = y;
         graphic.setScale(scaleX, scaleY);
     }
+
 /*
     public void freeMovement() {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT))

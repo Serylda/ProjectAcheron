@@ -20,6 +20,7 @@ public class AcheronMain extends ApplicationAdapter {
 	Sprite background;
 	Player player1, player2;
 	TurnBasedLevel testLevel;
+	TiledMap testMap;
 
 	@Override
 	public void create () {
@@ -28,8 +29,12 @@ public class AcheronMain extends ApplicationAdapter {
 		//camera.setToOrtho(true, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		backgroundBatch = new SpriteBatch();
 
-		testLevel = new TurnBasedLevel(1,"Test Level", new TiledMap(Gdx.files.internal("maps/testMap.txt")));
+		testLevel = new TurnBasedLevel(1,"Test Level", new TiledMap(Gdx.files.internal("maps/bigMapTest.txt")));
 		//testLevel.stage.addActor(new TestEnemy());
+
+		testMap = new TiledMap();
+		testMap.importMap(Gdx.files.internal("maps/bigMapTest.txt"));
+		testMap.outputMap();
 
 		player1 = new Player();
 		player1.initialize();
@@ -53,12 +58,13 @@ public class AcheronMain extends ApplicationAdapter {
 		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		renderBackground(background);
-		testLevel.map().renderMap(backgroundBatch);
+		//testLevel.map().renderMap(backgroundBatch);
+		testMap.renderMap(backgroundBatch);
 
 		//testLevel.stage.act(delta);
 		//testLevel.stage.draw();
 
-		player1.turnBasedAction(testLevel, (TiledMap)testLevel.map(), 10);
+		player1.turnBasedAction(testLevel, testMap, 10);
 		player1.render();
 	}
 

@@ -25,15 +25,17 @@ public class Tile extends MapElement
     public static final float tileHeight = 100;
     public static final float tileDistance = 5;
 
+    Sprite tile_Empty, tile_Player, tile_Obstacle;
+
     public Tile(int state)
     {
         initialize(state);
         xScale = 1f;
         yScale = 1f;
-        System.out.println(xPos + " " + yPos);
+        //System.out.println(xPos + " " + yPos);
     }
 
-    public Tile(int state, int xCoordinate, int yCoordinate)
+    public Tile(int state, int yCoordinate, int xCoordinate)
     {
         initialize(state, xCoordinate, yCoordinate);
         xScale = 1f;
@@ -41,7 +43,7 @@ public class Tile extends MapElement
         //System.out.println(Gdx.graphics.getHeight() + " " + Gdx.graphics.getWidth());
     }
 
-    public Tile(int state, int modifier, int xCoordinate, int yCoordinate)
+    public Tile(int state, int modifier, int yCoordinate, int xCoordinate)
     {
         initialize(state, xCoordinate, yCoordinate);
         this.modifier = modifier;
@@ -51,19 +53,35 @@ public class Tile extends MapElement
     {
         state = s;
         modifier = DEFAULT;
-        tileTexture = new Texture("testTile.png");
-        graphic = new Sprite(tileTexture, 100, 100);
+
+        tileTexture = new Texture("atlasTile.png");
+
+        tile_Empty = new Sprite(tileTexture,0, 0, 100,100);
+        tile_Obstacle = new Sprite(tileTexture,200, 0, 100,100);
+        tile_Player = new Sprite(tileTexture, 100, 0, 100, 100);
+
+        graphic = new Sprite(tile_Empty);
+
+        switch (state)
+        {
+            case (EMPTY):
+                graphic.set(tile_Empty);
+                break;
+            case (OCCUPIED_BY_OBSTACLE):
+                graphic.set(tile_Obstacle);
+                break;
+            case (OCCUPIED_BY_PLAYER):
+                graphic.set(tile_Player);
+                break;
+            default:
+                graphic.set(tile_Empty);
+                break;
+        }
     }
 
     public void initialize(int s, int xCoordinate, int yCoordinate)
     {
-        state = s;
-        modifier = DEFAULT;
-        tileTexture = new Texture("testTile.png");
-        graphic = new Sprite(tileTexture, 100, 100);
-
-        //tileWidth = tileTexture.getWidth() / 3;
-        //tileHeight = tileTexture.getHeight() / 3;
+        initialize(s);
 
         setCoordinate(xCoordinate, yCoordinate);
 
@@ -93,6 +111,27 @@ public class Tile extends MapElement
         xScale = x;
         yScale = y;
     }
+
+    public void setState(int state)
+    {
+        this.state = state;
+        switch (state)
+        {
+            case (EMPTY):
+                graphic.set(tile_Empty);
+                break;
+            case (OCCUPIED_BY_OBSTACLE):
+                graphic.set(tile_Obstacle);
+                break;
+            case (OCCUPIED_BY_PLAYER):
+                graphic.set(tile_Player);
+                break;
+            default:
+                graphic.set(tile_Empty);
+                break;
+        }
+    }
+
 
     public String toString()
     {
